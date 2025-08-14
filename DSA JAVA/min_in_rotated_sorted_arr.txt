@@ -1,0 +1,43 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.lang.*;
+class Main {
+    public static void main(String[] args) {
+       int[] arr = {3,4,5,1,2};
+       int low = 0;
+       int high = arr.length-1;
+       int ans = Integer.MAX_VALUE;
+       while(low <= high)
+       {
+           int mid = low+(high-low)/2;
+           
+           if(arr[low] <= arr[high])
+           {
+               ans = Math.min(ans,arr[low]);
+               break;
+           }
+          if(arr[low] <= arr[mid])
+          {
+              ans = Math.min(ans, arr[low]);
+              low = mid+1;
+          }
+           else{
+               ans = Math.min(ans,arr[mid]);
+               high = mid-1;
+           }
+       }
+       print(ans);
+       
+    }
+    
+    static<T> void print(T val)
+    {
+        System.out.println(val);
+    }
+    
+    static<T> void print(T val, String delimeter)
+    {
+        System.out.print(val + delimeter);
+    }
+}

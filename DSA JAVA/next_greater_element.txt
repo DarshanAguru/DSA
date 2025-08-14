@@ -1,0 +1,140 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.lang.*;
+import java.util.stream.*;
+
+
+
+class Main {
+    public static void main(String[] args) {
+        
+        int[] arr = {3, 10, 4 ,2, 1, 2, 6, 1, 7, 2, 9};
+        
+        Stack<Integer> st = new Stack<>();
+        
+        int[] res = new int[arr.length];
+        
+        int nge = -1;
+        
+        int n = arr.length;
+
+        for(int i = 2*n-1; i >= 0; i--)
+        {
+            
+            while(!st.isEmpty() && st.peek() <= arr[i%n])
+            {
+                st.pop();
+            }
+            
+            if(i < n)
+            {
+            if(st.isEmpty())
+            {
+                res[i] = -1;
+            }
+            else{
+                res[i] = st.peek();
+            }
+            }
+            st.push(arr[i%n]);
+            
+        }
+        
+        printList(Arrays.stream(res).boxed().collect(Collectors.toList()));
+        
+    }
+    
+    
+    
+    
+    
+   
+    
+    //---------------------- STATIC CODE--------------------------
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}

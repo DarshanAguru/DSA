@@ -1,0 +1,56 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        int[] a = {1,2,3,2,1};
+        int[] b = {3,2,2,3,3,2};
+        
+        ArrayList<Integer> res= new ArrayList<>();
+        
+        // main code
+        HashSet<Integer> hs = new HashSet<>();
+        for(int i : a)
+        {
+            hs.add(i);
+        }
+        
+        for(int i : b)
+        {
+            if(hs.contains(i))
+            {
+                res.add(i);
+                hs.remove(i);
+            }
+        }
+       
+        
+        printRes(res);
+        
+    }
+    
+    private static void printRes(ArrayList arr)
+    {
+        System.out.print("[");
+        for(int i = 0 ; i < arr.size();i++)
+        {
+            if(i == arr.size()-1)
+            {
+                System.out.print(arr.get(i));
+            }
+            else{
+                System.out.print(arr.get(i) + ", ");
+            }
+        }
+        System.out.println("]");
+        return;
+    }
+    
+    private static void swap(int[] arr,int i,int j)
+    {
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+        return;
+    }
+}

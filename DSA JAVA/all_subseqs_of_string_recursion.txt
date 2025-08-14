@@ -1,0 +1,113 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.lang.*;
+class Main {
+    public static void main(String[] args) {
+        
+        String str = "abc";
+        List<String> res = new ArrayList<>();
+        List<String> res1 = new ArrayList<>();
+        // all subsequence of string
+        getAllSubSeqsBT(str,0,res,"");
+        getAllSubSeqsBM(str,res1);
+        
+        printList(res1);
+    }
+    
+    static void getAllSubSeqsBM(String str, List<String> res)
+    {
+        for(int i = 0; i < (1 << str.length()); i++)
+        {
+            String sub = "";
+            for(int j = 0; j < str.length(); j++)
+            {
+                if((i & (1 << j)) != 0)
+                {
+                    sub += str.charAt(j);
+                }
+            }
+            if(sub.length() > 0)
+            {
+                res.add(sub);
+            }
+        }
+    }
+    
+    static void getAllSubSeqsBT(String str, int i, List<String> res, String tmp)
+    {
+        if(i == str.length())
+        {
+            res.add(tmp);
+            return;
+        }
+        
+        getAllSubSeqsBT(str,i+1,res,tmp+str.charAt(i));
+        getAllSubSeqsBT(str,i+1,res,tmp);
+    }
+    
+    
+    
+    //---------------------- STATIC CODE--------------------------
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2dList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == list.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ]");
+        }
+        System.out.println("]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}

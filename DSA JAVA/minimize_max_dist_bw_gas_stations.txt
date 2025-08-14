@@ -1,0 +1,120 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.lang.*;
+class Main {
+    public static void main(String[] args) {
+        // int[] arr = {1,2,3,4,5,6,7,8,9,10};
+        // int k = 1;
+        int[] arr = {1,2,3,4,5};
+        int k = 4;
+        
+        double resBF = findMinOfMaxDistBF(arr,k);
+        double resBS = findMinOfMaxDistBS(arr,k);
+        
+        
+        print(resBF);
+        print(resBS);
+        
+    }
+    
+    static int canFit(int[] arr, double width)
+    {
+        int cnt = 0;
+        for(int i = 1; i < arr.length; i++)
+        {
+            int inBetween = (int)((arr[i] - arr[i-1]) / width);
+            if((arr[i] - arr[i-1]) == (width * inBetween))
+            {
+                inBetween--;
+            }
+            cnt += inBetween;
+        }
+        return cnt;
+    }
+    
+    static double findMinOfMaxDistBS(int[] arr, int k)
+    {
+        double low = 0;
+        double high = Integer.MIN_VALUE;
+        double eps = 10e-6;
+        for(int i = 0; i < arr.length-1; i++)
+        {
+            high = (double)Math.max(high, arr[i+1] - arr[i]);
+        }
+        while(high - low > eps)
+        {
+            double mid = (high+low) / 2.0;
+            if(canFit(arr,mid) > k)
+            {
+                low = mid;
+            }
+            else{
+                high = mid;
+            }
+        }
+        return high;
+    }
+    
+    static double findMinOfMaxDistBF(int[] arr, int k)
+    {
+        int[] howMany = new int[arr.length];
+        for(int i =1; i <= k; i++)
+        {
+            double maxSelection = -1;
+            double selectionSize = -1;
+            int maxIdx = -1;
+            for(int j =  0; j < arr.length-1; j++)
+            {
+                int diff = arr[j+1] - arr[j];
+                selectionSize = (double)diff / (howMany[j] + 1);
+                if(selectionSize > maxSelection)
+                {
+                    maxSelection = selectionSize;
+                    maxIdx = j;
+                }
+            }
+            howMany[maxIdx]++;
+        }
+        double res = Double.MIN_VALUE;
+        for(int i = 0; i < arr.length-1; i++)
+        {
+            int diff = arr[i+1] - arr[i];
+            double val = (double)diff /(double)(howMany[i]+1); 
+            if(res < val)
+            {
+                res = val;
+            }
+        }
+        return res;
+    }
+    
+    
+    
+    //---------------------- STATIC CODE--------------------------
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}
