@@ -1,0 +1,191 @@
+import java.util.*;
+import java.lang.*;
+import java.util.stream.*;
+
+
+class Node {
+    public Node prev , next;
+    public int key ,val;
+    
+    Node(){}
+    
+    Node(int key , int val){
+        this.key = key;
+        this.val = val;
+    }
+}
+
+class LRUCache{
+    
+    int capacity; 
+    Node head;
+    Node tail;
+    HashMap<Integer, Node> hm;
+    LRUCache()
+    {
+        this.capacity = 0;
+        this.head = new Node(0,0);
+        this.tail = new Node(0,0);
+        head.next = tail;
+        tail.prev = head;
+        this.hm = new HashMap<>();
+    }
+    
+    LRUCache(int capacity)
+    {
+        this.capacity = capacity;
+        this.head = new Node(0,0);
+        this.tail = new Node(0,0);
+        head.next = tail;
+        tail.prev = head;
+        this.hm = new HashMap<>();
+    }
+    
+    public int get(int key)
+    {
+        if(this.hm.containsKey(key))
+        {
+            Node node = this.hm.get(key);
+            remove(node);
+            insert(node);
+            return node.val;
+        }
+        return -1;
+    }
+    
+    public void put(int key, int value)
+    {
+        if(this.hm.containsKey(key))
+        {
+            remove(hm.get(key));
+        }
+        if(this.hm.size() == capacity)
+        {
+            remove(this.tail.prev);
+        }
+        insert(new Node(key,value));
+        
+    }
+    
+    private void remove(Node n)
+    {
+        this.hm.remove(n.key);
+        n.prev.next = n.next;
+        n.next.prev = n.prev;
+    }
+    
+    private void insert(Node n)
+    {
+        this.hm.put(n.key, n);
+        n.next = this.head.next;
+        n.next.prev = n;
+        this.head.next = n;
+        n.prev = this.head;
+    }
+}
+
+
+class Main {
+    public static void main(String[] args) {
+        LRUCache lru = new LRUCache(2);
+        lru.put(1,1);
+        lru.put(2,2);
+        print(lru.get(1));
+        lru.put(3,3);
+        print(lru.get(2));
+        lru.put(4,4);
+        print(lru.get(1));
+        print(lru.get(3));
+        print(lru.get(4));
+    }
+    
+    
+    
+    
+    //---------------------- STATIC CODE--------------------------
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}
