@@ -1,0 +1,205 @@
+import java.lang.*;
+import java.util.*;
+import java.util.stream.*;
+
+
+class Node{
+    
+    public Node left, right;
+    public int val;
+    Node(int val)
+    {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+    
+    
+}
+
+class Main {
+    
+    public static void main(String[] args) {
+        
+        Node root = new Node(4);
+        root.left = new Node(2);
+        root.left.left = new Node(3);
+        root.left.left.right = new Node(9);
+        root.left.left.right.left = new Node(1);
+        root.right = new Node(5);
+        root.right.left = new Node(7);
+        root.right.right = new Node(6);
+        root.right.right.left = new Node(8);
+        
+        List<Integer> res = getMorisPreorderTraversal(root);
+        printList(res);
+    }
+    
+    static List<Integer> getMorisPreorderTraversal(Node root)
+    {
+        List<Integer> preorder = new ArrayList<>();
+        if(root == null)
+        {
+            return preorder;
+        }
+        
+        Node curr = root;
+        while(curr != null)
+        {
+            if(curr.left == null)
+            {
+                preorder.add(curr.val);
+                curr = curr.right;
+            }
+            else{
+                Node prev = curr.left;
+                
+                while(prev.right != null && prev.right != curr)
+                {
+                    prev = prev.right;
+                }
+                
+                if(prev.right == curr)
+                {
+                    prev.right = null;
+                    curr = curr.right;
+                }
+                else{
+                    
+                    preorder.add(curr.val);
+                    prev.right = curr;
+                    curr = curr.left;
+                }
+            }
+            
+        }
+        return preorder;
+    }
+   
+    
+    
+    
+/*-------------------------------------------------------------
+                          STATIC CODE 
+-------------------------------------------------------------*/
+class Pair<K,V>{
+
+    K key;
+    V value;
+    
+    Pair()
+    {
+        this.key = null;
+        this.value = null;
+    }
+    
+    Pair(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public void set(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public K getKey()
+    {
+        return this.key;
+    }
+    
+    public V getValue()
+    {
+        return this.value;
+    }
+    
+}
+    
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}
