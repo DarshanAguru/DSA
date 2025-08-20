@@ -80,9 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     function formatDisplayName(filename) {
-        let name = filename.slice(3, -4).replace(/_/g, ' ');
-        let idx = filename.slice(0,3);
-        return idx + name.split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');
+        let nameArr = filename.split(" ");
+        let name = nameArr[1].slice(0, -4).replace(/_/g, ' ');
+        let suffix = name.split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');
+        let prefix = nameArr[0] + " ";
+        return  prefix + suffix;
     }
 
     function highlightJavaSyntax(code) {
