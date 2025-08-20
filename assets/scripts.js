@@ -144,6 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput.addEventListener("input", (e) => handleSearch(e.target.value));
     clearButton.addEventListener("click", handleClear);
     copyButton.addEventListener("click", handleCopy);
-    
+
     loadFiles();
 });

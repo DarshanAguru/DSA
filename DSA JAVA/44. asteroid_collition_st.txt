@@ -2,8 +2,6 @@ import java.util.*;
 import java.lang.*;
 import java.util.stream.*;
 
-
-
 class Main {
     public static void main(String[] args) {
         int[] asteroids = {3, 2, -5};
