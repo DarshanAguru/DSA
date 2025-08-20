@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ...item,
                     DisplayName: formatDisplayName(item.name)
                 }))
-                .sort((a, b) => a.DisplayName.localeCompare(b.DisplayName));
+                .sort((a, b) => parseInt(a.DisplayName.split(".")[0]) - parseInt(b.DisplayName.split(".")[0]));
 
             renderList(allFiles);
         } catch (e) {
