@@ -1,0 +1,79 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.lang.*;
+class Main {
+    public static void main(String[] args) {
+        int[] arr = {3,1,2,5,3};
+        int xor = 0;
+        for(int i = 0; i < arr.length; i++)
+        {
+            xor ^= arr[i];
+            xor ^= (i+1);
+        }
+        // xor contains the missing and twice number
+        int diff = (xor & ~(xor-1));
+        int zero = 0;
+        int one = 0;
+        for(int i = 0; i < arr.length; i++)
+        {
+            if((arr[i]&diff) != 0)
+            {
+                one = one ^ arr[i];
+            }
+            else{
+                zero = zero ^ arr[i];
+            }
+        }
+        
+        for(int i =1; i <= arr.length; i++)
+        {
+            if((i & diff) != 0)
+            {
+                one = one ^ i;
+            }
+            else{
+                zero = zero ^ i;
+            }
+        }
+        int cnt = 0;
+        for(int i = 0;i < arr.length; i++)
+        {
+            if(arr[i] == zero){
+                cnt++;
+            }
+        }
+        if(cnt == 2)
+        {
+            print(zero, ",", one);
+            
+        }
+        else{
+            print(one, ",", zero);
+        }
+    }
+    
+    
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    static<T> void print(T val, String delimeter)
+    {
+        System.out.print(val + delimeter);
+    }
+}

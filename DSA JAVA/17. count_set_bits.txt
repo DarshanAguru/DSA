@@ -1,0 +1,27 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.lang.*;
+class Main {
+    public static void main(String[] args) {
+        int n = 6;
+        int set = 0;
+        while(n != 0)
+        {
+            n = n & (n-1);
+            set++;
+        }
+        print(set);
+       
+    }
+
+    static<T> void print(T val)
+    {
+        System.out.println(val);
+    }
+    
+    static<T> void print(T val, String delimeter)
+    {
+        System.out.print(val + delimeter);
+    }
+}

@@ -1,0 +1,58 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        int[] arr = {1,2,3,4,5};
+        
+        int lastEle = arr[arr.length-1];
+        
+        for(int i = arr.length-1; i >0; i--)
+        {
+            arr[i] = arr[i-1];
+        }
+        
+        arr[0] = lastEle;
+        
+        printRes(arr);
+        
+    }
+    
+    private static void reverseArr(int[] arr, int start, int end)
+    {
+        int low = start;
+        int high = end-1;
+        
+        while(low < high)
+        {
+            swap(arr,low,high);
+            low++;
+            high--;
+        }
+    }
+    
+    private static void printRes(int[] arr)
+    {
+        System.out.print("[");
+        for(int i = 0 ; i < arr.length;i++)
+        {
+            if(i == arr.length-1)
+            {
+                System.out.print(arr[i]);
+            }
+            else{
+                System.out.print(arr[i] + ", ");
+            }
+        }
+        System.out.println("]");
+        return;
+    }
+    
+    private static void swap(int[] arr,int i,int j)
+    {
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+        return;
+    }
+}

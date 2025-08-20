@@ -1,0 +1,35 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.lang.*;
+class Main {
+    public static void main(String[] args) {
+       int a= 10;
+       int b = 20;
+       // sum of two integers without using operartors + or -
+       print(calcSum(a,b));
+       
+    }
+    
+    static int calcSum(int a,int b)
+    {
+        
+        while(b != 0)
+        {
+            int carry = (a&b) << 1;
+            a = a ^ b;
+            b = carry;
+        }
+        return a;
+    }
+    
+    static<T> void print(T val)
+    {
+        System.out.println(val);
+    }
+    
+    static<T> void print(T val, String delimeter)
+    {
+        System.out.print(val + delimeter);
+    }
+}

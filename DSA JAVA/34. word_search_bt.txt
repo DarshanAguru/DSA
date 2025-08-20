@@ -1,0 +1,151 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.lang.*;
+
+
+class Main {
+    public static void main(String[] args) {
+        
+        char[][] grid = {
+          {'A', 'B', 'C',},
+          {'A', 'E', 'D'},
+          {'A', 'F', 'G'}
+        };
+        
+        String word = "AEFG";
+        // String word = "ABCB";
+        boolean ans = false;
+        int idx = 0;
+        for(int i = 0; i < grid.length; i++)
+        {
+            for(int j = 0; j < grid[0].length; j++)
+            {
+                if(grid[i][j] == word.charAt(idx))
+                {
+                    if(solve(grid, word, i, j, idx))
+                    {
+                        ans= true;
+                        break;
+                    }
+                }
+            }
+            if(ans == true)
+            {
+                break;
+            }
+        }
+        
+        print(ans);
+        
+    }
+    
+    static boolean solve(char[][] grid, String word, int i, int j, int idx)
+    {
+        if(idx == word.length())
+        {
+            return true;
+        }
+        if( i < 0 || i == grid.length || j < 0 || j >= grid[0].length || grid[i][j] != word.charAt(idx) || grid[i][j] == '*')
+        {
+            return false;
+        }
+        
+        char ltr = grid[i][j];
+        grid[i][j] = '*';
+        boolean res = false;
+        res = res || solve(grid, word, i+1,j, idx+1);
+        res =  res || solve(grid, word, i, j+1,idx+1);
+        res = res || solve(grid, word, i-1,j, idx+1);
+        res = res || solve(grid, word, i, j-1, idx+1);
+        grid[i][j] = ltr;
+        return res;
+    }
+    
+    
+   
+    
+    //---------------------- STATIC CODE--------------------------
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}

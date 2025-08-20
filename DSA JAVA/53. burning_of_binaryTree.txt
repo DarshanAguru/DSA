@@ -1,0 +1,244 @@
+import java.lang.*;
+import java.util.*;
+import java.util.stream.*;
+
+
+class Node{
+    
+    public Node left, right;
+    public int val;
+    Node(int val)
+    {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+    
+    
+}
+
+class Main {
+    
+    public static void main(String[] args) {
+        Node root = new Node(1);
+        root.left = new Node(2);
+        root.left.left = new Node(4);
+        root.left.left.right = new Node(7);
+        root.right = new Node(3);
+        root.right.left = new Node(5);
+        root.right.right = new Node(6);
+       
+        Node target = root.right;
+        int res = getMinTimeToBurnTree(root, target);
+       
+        print(res);
+        
+    }
+    
+    static int getMinTimeToBurnTree(Node root, Node target)
+    {
+        int res = 0;
+        if(root == null)
+        {
+            return 0;
+        }
+        
+        Map<Node, List<Node>> mapp = new HashMap<>();
+        buildMap(root, null, mapp);
+        
+        
+        if(!mapp.containsKey(target))
+        {
+            return 0;
+        }
+        
+        Set<Node> vis = new HashSet<>();
+        Queue<Node> q = new LinkedList<>();
+        
+        q.add(target);
+        vis.add(target);
+        
+        while(!q.isEmpty())
+        {
+            int n = q.size();
+            
+            res++;
+            for(int i = 0; i < n; i++)
+            {
+                Node node = q.poll();
+                for(Node nxt : mapp.get(node))
+                {
+                    if(vis.contains(nxt))
+                    {
+                        continue;
+                    }
+                    vis.add(nxt);
+                    q.add(nxt);
+                }
+            }
+        }
+        
+        return res-1;
+        
+    }
+    
+    static void buildMap(Node node, Node parent, Map<Node, List<Node>> mapp)
+    {
+        if(node == null)
+        {
+            return;
+        }
+        
+        if(!mapp.containsKey(node))
+        {
+            
+            // print(node.val);
+            mapp.put(node, new ArrayList<Node>());
+            
+            if(parent != null)
+            {
+                List<Node> tmp = mapp.get(node);
+                tmp.add(parent);
+                mapp.put(node, tmp);
+
+                tmp = mapp.get(parent);
+                tmp.add(node);
+                mapp.put(parent, tmp);
+            }
+            
+            
+            
+            buildMap(node.left, node, mapp);
+            buildMap(node.right, node, mapp);
+        }
+    }
+    
+    
+    
+    
+    
+    
+/*-------------------------------------------------------------
+                          STATIC CODE 
+-------------------------------------------------------------*/
+class Pair<K,V>{
+
+    K key;
+    V value;
+    
+    Pair()
+    {
+        this.key = null;
+        this.value = null;
+    }
+    
+    Pair(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public void set(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public K getKey()
+    {
+        return this.key;
+    }
+    
+    public V getValue()
+    {
+        return this.value;
+    }
+    
+}
+    
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}

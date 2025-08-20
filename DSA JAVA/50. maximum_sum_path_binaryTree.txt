@@ -1,0 +1,136 @@
+import java.util.*;
+import java.lang.*;
+import java.util.stream.*;
+
+class Node{
+    
+    public Node left, right;
+    public int val;
+    Node(int val)
+    {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+    
+}
+
+class Main {
+    static int dia;
+    public static void main(String[] args) {
+       
+        Node root = new Node(-10);
+        root.left = new Node(9);
+        root.right = new Node(20);
+        root.right.left = new Node(15);
+        root.right.right = new Node(7);
+        
+        int maxSum[] = new int[1];
+        findMaxSumPath(root, maxSum);
+        
+        print(maxSum[0]);
+
+    }
+    
+    static int findMaxSumPath(Node node, int maxSum[])
+    {
+        if (node == null)
+        {
+            return 0;
+        }
+        
+        int leftSum = Math.max(0,findMaxSumPath(node.left, maxSum));
+        int rightSum = Math.max(0,findMaxSumPath(node.right, maxSum));
+        maxSum[0] = Math.max(maxSum[0], leftSum + rightSum + node.val);
+        
+        return Math.max(leftSum, rightSum) + node.val;
+    }
+    
+    
+    //---------------------- STATIC CODE--------------------------
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}

@@ -1,0 +1,177 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.lang.*;
+import java.util.stream.*;
+
+
+
+class Main {
+    public static void main(String[] args) {
+        
+        // int[] arr = {0,1,0,2,1,0,1,3,2,1,2,1};
+        int[] arr = {4, 2, 0, 3, 2, 5};
+        
+        int res = getTrappedWater(arr);
+        
+        int resOptimal = getTrappedWaterOptimal(arr);
+        
+        print("BruteForce (N*N): ", res);
+        print("Optmal (N): ", resOptimal);
+        
+    }
+    
+    static int getTrappedWaterOptimal(int[] arr)
+    {
+        int n = arr.length;
+        int trappedWater = 0;
+        int left = 0;
+        int right = n-1;
+        int leftMax = 0;
+        int rightMax = 0;
+        
+        while(left <= right)
+        {
+            if(arr[left] <= arr[right])
+            {
+                if(leftMax <= arr[left])
+                {
+                    leftMax  = arr[left];
+                }else{
+                    trappedWater += leftMax - arr[left];
+                }
+                left++;
+            }else{
+                if(rightMax <= arr[right])
+                {
+                    rightMax = arr[right];
+                }else{
+                    trappedWater += rightMax - arr[right];
+                }
+                right--;
+            }
+        }
+        return trappedWater;
+        
+    }
+    
+    static int getTrappedWater(int[] arr)
+    {
+        int n = arr.length;
+        int trappedWater = 0;
+        for(int i = 0; i < n; i++)
+        {
+            int j = i;
+            int leftMax = arr[i];
+            int rightMax = arr[i];
+            while(j >= 0)
+            {
+                leftMax = Math.max(leftMax, arr[j]);
+                j--;
+            }
+            j = i;
+            while(j < n)
+            {
+                rightMax = Math.max(rightMax, arr[j]);
+                j++;
+            }
+            
+            trappedWater += Math.min(leftMax,rightMax) - arr[i];
+        }
+        
+        return trappedWater;
+    }
+     
+    
+    
+    
+    
+   
+    
+    //---------------------- STATIC CODE--------------------------
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}
