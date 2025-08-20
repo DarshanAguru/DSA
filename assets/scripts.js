@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     DisplayName: formatDisplayName(item.name)
                 }))
                 .sort((a, b) => parseInt(a.DisplayName.split(".")[0]) - parseInt(b.DisplayName.split(".")[0]));
+            
 
             renderList(allFiles);
         } catch (e) {
