@@ -15,7 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadFiles() {
         try {
-            const response = await fetch(GITHUB_API);
+            const response = await fetch(GITHUB_API, {
+                                    headers: {
+                                            'Cache-Control': 'no-cache'
+                                        }
+                                    });
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const json = await response.json();
             
@@ -41,7 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
         codeDisplay.classList.add('loading');
         
         try {
-            const res = await fetch(`${GITHUB_RAW}/${filename}`);
+            const res = await fetch(`${GITHUB_RAW}/${filename}`, {
+                                        headers: {
+                                                'Cache-Control': 'no-cache'
+                                              }
+                                        });
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
             const text = await res.text();
             renderCode(text);
