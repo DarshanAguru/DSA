@@ -95,8 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
         
         try {
             const res = await fetch(`${GITHUB_RAW}/${filename}`,{
-                headers: { "If-None-Match" : localStorage.getItem(eTagFileKey) || ""  },
-                cache: "no-store" 
+                headers: { "If-None-Match" : localStorage.getItem(eTagFileKey) || "", "Accept" : "application/vnd.github.v3.raw" } ,
+                cache : "no-store"
             });
             let text = undefined;
             if(res.status === 200)
