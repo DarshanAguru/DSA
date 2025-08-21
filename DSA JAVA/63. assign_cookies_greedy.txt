@@ -1,0 +1,201 @@
+import java.lang.*;
+import java.util.*;
+import java.util.stream.*;
+
+class Main {
+    
+    static int INF = (int)Math.pow(10,9);
+    
+    public static void main(String[] args) {
+     
+        int[] students = {1,2,3};
+        int[] cookies = {1,1};
+        
+        int res = findMaxNoStudentsWithCookies(students, cookies);
+        
+        print(res);
+        
+    }
+    
+    static int findMaxNoStudentsWithCookies(int[] students, int[] cookies)
+    {
+        Arrays.sort(students);
+        Arrays.sort(cookies);
+        
+        int i = 0, j = 0;
+        int cnt = 0;
+        
+        while(i < students.length && j < cookies.length)
+        {
+            if(students[i] <= cookies[j])
+            {
+                cnt++;
+                i++;
+                j++;
+            }
+            else{
+                j++;
+            }
+        }
+        return cnt;
+       
+    }
+    
+
+    
+    
+    
+    
+    
+
+/*-------------------------------------------------------------
+                          STATIC CODE 
+-------------------------------------------------------------*/
+
+class Pair<K,V>{
+
+    K key;
+    V value;
+    
+    Pair()
+    {
+        this.key = null;
+        this.value = null;
+    }
+    
+    Pair(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public void set(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public K getKey()
+    {
+        return this.key;
+    }
+    
+    public V getValue()
+    {
+        return this.value;
+    }
+    
+}
+    
+
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printnl(T val, T ...vals)
+    {
+       try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        sb.append(" ");
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.print(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}

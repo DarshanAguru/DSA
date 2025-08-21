@@ -1,0 +1,240 @@
+import java.lang.*;
+import java.util.*;
+import java.util.stream.*;
+
+class Main {
+    
+    static int INF = (int)Math.pow(10,9);
+    
+    public static void main(String[] args) {
+        
+        int[] wt = {2, 4, 6};
+        int[] val = {5, 11, 13};
+        
+        int W = 10;
+        
+        int n = wt.length;
+        
+        int res = knapSackMEMO(n,W,wt,val);
+        int res1 = knapSackTAB(n,W,wt,val);
+        
+        print(res);
+        print(res1);
+       
+    }
+   
+   static int knapSackTAB(int n, int W, int[] wt, int[] val)
+   {
+       int[][] dp = new int[n][W+1];
+       
+       for(int i = wt[0]; i <= W; i++)
+       {
+           dp[0][i] = ((int) i / wt[0]) * val[0];
+       }
+       
+       for(int i = 1; i < n; i++)
+        {
+            for(int c = 0; c <= W; c++)
+            {
+                int nt = 0 + dp[i-1][c];
+                int t = Integer.MIN_VALUE;
+                
+                if(wt[i] <= c)
+                {
+                    t = val[i] + dp[i][c-wt[i]];
+                }
+                
+                dp[i][c] = Math.max(nt,t);
+                
+            }
+        }
+       return dp[n-1][W];
+   }
+   
+   static int knapSackMEMO(int n, int W, int[] wt, int[] val)
+    {
+        int[][] dp = new int[n][W+1];
+        for(int r[] : dp)
+        {
+            Arrays.fill(r, -1);
+        }
+        
+        return helper(wt, val, n-1, W, dp);
+    }
+    
+    
+    static int helper(int[] wt, int[] val, int idx, int W, int[][] dp)
+    {
+        if(idx == 0)
+        {
+            return ((int) (W/wt[0]) * val[0]);
+        }
+        
+        if(dp[idx][W] != -1)
+        {
+            return dp[idx][W];
+        }
+        
+        int nt = 0 + helper(wt, val, idx-1,W, dp);
+        int t = Integer.MIN_VALUE;
+        if(wt[idx] <= W)
+        {
+            t = val[idx] + helper(wt,val,idx,W - wt[idx], dp);
+        }
+        
+        return dp[idx][W] = Math.max(nt,t);
+    }
+    
+    
+
+/*-------------------------------------------------------------
+                          STATIC CODE 
+-------------------------------------------------------------*/
+
+class Pair<K,V>{
+
+    K key;
+    V value;
+    
+    Pair()
+    {
+        this.key = null;
+        this.value = null;
+    }
+    
+    Pair(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public void set(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public K getKey()
+    {
+        return this.key;
+    }
+    
+    public V getValue()
+    {
+        return this.value;
+    }
+    
+}
+    
+
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printnl(T val, T ...vals)
+    {
+       try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        sb.append(" ");
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.print(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}

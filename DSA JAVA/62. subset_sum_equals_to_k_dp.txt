@@ -1,0 +1,283 @@
+import java.lang.*;
+import java.util.*;
+import java.util.stream.*;
+
+class Main {
+    
+    static int INF = (int)Math.pow(10,9);
+    
+    public static void main(String[] args) {
+     
+        int[] arr = {1, 2, 3, 4};
+        
+        int target = 4;
+        
+        boolean res = doesSubsetSumToKMEMO(arr, target); 
+        
+        boolean res1 = doesSubsetSumToKTAB(arr, target);
+        
+        boolean res2 = doesSubsetSumToKSO(arr, target);
+        
+        print(res);
+        print(res1);
+        print(res2);
+        
+    }
+    
+    static boolean doesSubsetSumToKSO(int[] arr, int target)
+    {
+        boolean[] dp = new boolean[target+1];
+        
+        dp[0] = true;
+        
+        if(arr[0] <= target)
+        {
+            dp[arr[0]] = true;
+        }
+        
+        for(int i = 1; i < arr.length; i++)
+        {
+            boolean curr[] = new boolean[target+1];
+            
+            curr[0] = true;
+            
+            for(int k = 1; k <= target; k++)
+            {
+                boolean nt = dp[k];
+                
+                boolean t = false;
+                if(arr[i] <= k)
+                {
+                    t = dp[k - arr[i]];
+                }
+                
+                curr[k] = nt || t;
+            }
+            
+            dp = curr;
+        }
+        
+        return dp[target];
+    }
+    
+    static boolean doesSubsetSumToKTAB(int[] arr, int target)
+    {
+        boolean[][] dp = new boolean[arr.length][target+1];
+        
+        for(int i = 0; i < arr.length; i++)
+        {
+            dp[i][0] = true;
+        }
+        
+        if(arr[0] <= target)
+        {
+            dp[0][arr[0]] = true;
+        }
+        
+        for(int j = 1; j < arr.length; j++)
+        {
+            for(int t = 1; t <= target; t++)
+            {
+                boolean nt = dp[j-1][t];
+                
+                boolean taken = false;
+                if(arr[j] <= t)
+                {
+                    taken = dp[j-1][t-arr[j]];
+                }
+                dp[j][t] =  nt || taken;
+            }
+        }
+        
+        return dp[arr.length-1][target];
+        
+    }
+    
+    static boolean doesSubsetSumToKMEMO(int[] arr,int target)
+    {
+        return helper(arr, arr.length-1,  target);
+    }
+    
+    
+    static boolean helper(int[] arr, int i, int target)
+    {
+       if(target == 0)
+       {
+           return true;
+       }
+       
+       if(i == 0)
+       {
+           return arr[0] == target;
+       }
+       
+       
+       boolean nt = helper(arr,i-1,target);
+       
+       boolean t = false;
+       
+       if(arr[i] <= target)
+       {
+           t =  helper(arr, i-1, target - arr[i]);
+       }
+       
+       return nt || t;
+       
+    }
+    
+    
+    
+    
+    
+
+/*-------------------------------------------------------------
+                          STATIC CODE 
+-------------------------------------------------------------*/
+
+class Pair<K,V>{
+
+    K key;
+    V value;
+    
+    Pair()
+    {
+        this.key = null;
+        this.value = null;
+    }
+    
+    Pair(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public void set(K key, V value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+    
+    public K getKey()
+    {
+        return this.key;
+    }
+    
+    public V getValue()
+    {
+        return this.value;
+    }
+    
+}
+    
+
+    
+    @SuppressWarnings("unchecked")
+    static void print2DArray(int[][] arr)
+    {
+         System.out.println("[");
+        for(int[] row : arr)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < row.length; i++)
+            {
+                if(i == row.length-1)
+                {
+                    System.out.print(row[i]);
+                }else{
+                    System.out.print(row[i]+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print2DList(List<List<T>> list){
+        System.out.println("[");
+        for(List<T> lst : list)
+        {
+            System.out.print("[ ");
+            for(int i = 0; i < lst.size(); i++)
+            {
+                if(i == lst.size()-1)
+                {
+                    System.out.print(lst.get(i));
+                }else{
+                    System.out.print(lst.get(i)+", ");
+                }
+            }
+            System.out.println(" ],");
+        }
+        System.out.println("]");
+    }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printList(List<T> list)
+    {
+        System.out.print("[ ");
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(i == list.size()-1)
+            {
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i)+", ");
+            }
+        }
+        System.out.println(" ]");
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void printnl(T val, T ...vals)
+    {
+       try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        sb.append(" ");
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.print(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    static<T> void print(T val, T ...vals)
+    {
+        try{
+        StringBuilder sb = new StringBuilder();
+        sb.append(val);
+        if(vals.length > 0)
+        {
+            
+        
+        for(T v : vals)
+        {
+            sb.append(" ");
+            sb.append(v);
+        }
+        }
+        System.out.println(sb.toString());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}
