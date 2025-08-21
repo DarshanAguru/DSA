@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadFiles() {
         try {
-            const response = await fetch(GITHUB_API);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const response = await fetch(`${GITHUB_API}?t=${Date.now()}`, { cache : "no-store" });
+            if (!response.ok) throw new Error(`Opps! Failed to Fetch Data.`);
             const json = await response.json();
             
             allFiles = json
@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
         codeDisplay.classList.add('loading');
         
         try {
-            const res = await fetch(`${GITHUB_RAW}/${filename}`);
-            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            const res = await fetch(`${GITHUB_RAW}/${filename}?t=${Date.now()}`,{ cache: "no-store" });
+            if (!res.ok) throw new Error(`Opps! Failed to fetch Data.`);
             const text = await res.text();
             renderCode(text);
         } catch (e) {
