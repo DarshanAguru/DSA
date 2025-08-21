@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const GITHUB_REPO = "DSA";
     const GITHUB_FOLDER = "DSA JAVA";
     const GITHUB_API = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_FOLDER}`;
-    const GITHUB_RAW = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${GITHUB_FOLDER}`;
 
     const resultsContainer = document.querySelector(".results");
     const codeContentElement = document.getElementById("code-content");
@@ -94,8 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const cacheFileKey = `cache-${filename}`;
         
         try {
-            const res = await fetch(`${GITHUB_RAW}/${filename}`,{
-                headers: { "If-None-Match" : localStorage.getItem(eTagFileKey) || "", "Accept" : "application/vnd.github.v3.raw" } ,
+            const res = await fetch(`${GITHUB_API}/${filename}`,{
+                headers: { "If-None-Match" : localStorage.getItem(eTagFileKey) || ""} ,
                 cache : "no-store"
             });
             let text = undefined;
@@ -106,7 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 {
                     localStorage.setItem(eTagFileKey, etag);
                 }
-                text = await res.text();
+                const data = await res.json();
+                text = atob(data.content);
                 localStorage.setItem(cacheFileKey, text);
             }
             else if(res.status === 304)
