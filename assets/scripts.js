@@ -14,11 +14,39 @@ document.addEventListener("DOMContentLoaded", () => {
     let allFiles = [];
 
     async function loadFiles() {
+        const eTagKey = "algovault-etag";
+        const cacheKey = "algovault-cache";
         try {
-            const response = await fetch(`${GITHUB_API}?t=${Date.now()}`, { cache : "no-store" });
-            if (!response.ok) throw new Error(`Opps! Failed to Fetch Data.`);
-            const json = await response.json();
             
+            
+            const response = await fetch(`${GITHUB_API}`, { 
+                headers: { "If-None-Match" : localStorage.getItem(etagKey) || "" } ,
+                cache : "no-store"
+            });
+            let json = undefined;
+            if(response.status === 200) 
+            {
+                const etag = response.headers.get("etag");
+                if(etag){
+                    localStorage.setItem(eTagKey, etag);
+                }
+                json = await response.json();
+                localStorage.setItem(cacheKey, JSON.stringify(json));
+
+                
+            }
+            else if (response.status === 304)
+            {
+                const cached = localStorage.getItem(cacheKey);
+                if(cached){
+                    json = JSON.parse(cached);
+                }
+            }
+            else{
+                throw new Error(`Opps! Failed to Fetch Data.`);
+            }
+            if(json !== undefined)
+            {
             allFiles = json
                 .filter(item => item.type === "file" && item.name.endsWith('.txt'))
                 .map(item => ({
@@ -29,9 +57,31 @@ document.addEventListener("DOMContentLoaded", () => {
             
 
             renderList(allFiles);
+            }
+            else{
+                resultsContainer.innerHTML = `<div class="result-item">Error loading files.</div>`;
+            }
         } catch (e) {
             console.error("⚠️ Error loading file list:", e);
-            resultsContainer.innerHTML = `<div class="result-item">Error loading files.</div>`;
+            const cached = localStorage.getItem(cacheKey);
+            if(cached)
+            {
+                const json = JSON.parse(cached);
+                 allFiles = json
+                .filter(item => item.type === "file" && item.name.endsWith('.txt'))
+                .map(item => ({
+                    ...item,
+                    DisplayName: formatDisplayName(item.name)
+                }))
+                .sort((a, b) => parseInt(a.DisplayName.split(".")[0]) - parseInt(b.DisplayName.split(".")[0]));
+            
+
+                renderList(allFiles);
+                
+            }
+            else{
+                resultsContainer.innerHTML = `<div class="result-item">Error loading files.</div>`;
+            }
         }
     }
 
@@ -39,14 +89,53 @@ document.addEventListener("DOMContentLoaded", () => {
         const codeDisplay = document.querySelector('.code-display');
         
         codeDisplay.classList.add('loading');
+
+        const eTagFileKey = `etag-${filename}`;
+        const cacheFileKey = `cache-${filename}`;
         
         try {
-            const res = await fetch(`${GITHUB_RAW}/${filename}?t=${Date.now()}`,{ cache: "no-store" });
-            if (!res.ok) throw new Error(`Opps! Failed to fetch Data.`);
-            const text = await res.text();
-            renderCode(text);
+            const res = await fetch(`${GITHUB_RAW}/${filename}`,{
+                headers: { "If-None-Match" : localStorage.getItem(etagFileKey) || ""  },
+                cache: "no-store" 
+            });
+            let text = undefined;
+            if(res.status === 200)
+            {
+                const etag = res.headers.get("etag");
+                if(etag)
+                {
+                    localStorage.setItem(eTagFileKey, etag);
+                }
+                text = await res.text();
+                localStorage.setItem(cacheFileKey, text);
+            }
+            else if(res.status === 304)
+            {
+                const cached = localStorage.getItem(cacheFileKey);
+                if(cached) {
+                    text = cached;
+                }
+            }
+            else{
+                throw new Error(`Opps! Failed to fetch Data.`);
+            }
+            if(text !== undefined)
+            {
+                renderCode(text);    
+            }
+            else{
+                renderCode(`📛 Error loading file Content`);
+            }
         } catch (e) {
-            renderCode(`📛 Error loading file: ${e.message}`);
+            
+            const cached = localStorage.getItem(cacheFileKey);
+            if(cached)
+            {
+                renderCode(cached);
+            }
+            else{
+               renderCode(`📛 Error loading file: ${e.message}`); 
+            }
         } finally {
             codeDisplay.classList.remove('loading');
         }
