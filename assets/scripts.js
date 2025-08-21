@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             
             const response = await fetch(`${GITHUB_API}`, { 
-                headers: { "If-None-Match" : localStorage.getItem(etagKey) || "" } ,
+                headers: { "If-None-Match" : localStorage.getItem(eTagKey) || "" } ,
                 cache : "no-store"
             });
             let json = undefined;
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         try {
             const res = await fetch(`${GITHUB_RAW}/${filename}`,{
-                headers: { "If-None-Match" : localStorage.getItem(etagFileKey) || ""  },
+                headers: { "If-None-Match" : localStorage.getItem(eTagFileKey) || ""  },
                 cache: "no-store" 
             });
             let text = undefined;
