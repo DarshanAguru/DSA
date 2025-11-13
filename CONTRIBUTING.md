@@ -23,9 +23,9 @@ git checkout -b additions/new_code
 
 ### 2. Make Your Changes
 Follow the existing code style. Each code should:
-- Be written in JAVA (upload in txt format).
+- Written in JAVA (upload in .txt format).
 - Add in `DSA JAVA` folder.
-- Include comments fo approach.
+- Include comments for approach.
 
 
 ### 4. Commit Convention
