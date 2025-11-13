@@ -8,6 +8,39 @@ Visit the web interface of this repository [here](https://darshanaguru.github.io
 Its purely made up of Vanilla JS and plain CSS and HTML.\
 No mess, clean and sleek. It uses github api's for fetching the codes from the DSA JAVA folder and displaying it in web interface.
 
-## About
-Author: Darshan Aguru\
-For more info about me please visit my [Portfolio](https://www.agurudarshan.tech).
+
+## 💬 Author
+
+**Darshan Aguru**
+React Native Developer • AWS Certified Solutions Architect
+GitHub: [@DarshanAguru](https://github.com/DarshanAguru)
+Portfolio: [DarshanAguru](https://agurudarshan.tech)
+
+---
+
+## 👥 Contributors
+This project exists thanks to all the people who contribute.
+
+<a href="https://github.com/DarshanAguru/DSA/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=DarshanAguru/DSA" />
+</a>
+<br/>
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+Please read the [Contributing Guide](./CONTRIBUTING.md) and follow the [Code of Conduct](./CODE_OF_CONDUCT.md).
+
+---
+
+## ⭐ Support
+
+If you find this library useful, give it a ⭐ on [GitHub](https://github.com/DarshanAguru/DSA)!
