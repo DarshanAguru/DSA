@@ -13,140 +13,162 @@ document.addEventListener("DOMContentLoaded", () => {
     let allFiles = [];
 
     async function loadFiles() {
+
         const eTagKey = "algovault-etag";
         const cacheKey = "algovault-cache";
+
         try {
-            
-            
-            const response = await fetch(`${GITHUB_API}`, { 
+
+            const response = await fetch(`${GITHUB_API}`, {
                 headers: { "If-None-Match" : localStorage.getItem(eTagKey) || "" } ,
                 cache : "no-store"
             });
+
             let json = undefined;
-            if(response.status === 200) 
-            {
+
+            if (response.status === 200) {
+
                 const etag = response.headers.get("etag");
-                if(etag){
+                if (etag) {
                     localStorage.setItem(eTagKey, etag);
                 }
                 json = await response.json();
                 localStorage.setItem(cacheKey, JSON.stringify(json));
 
-                
-            }
-            else if (response.status === 304)
-            {
+            } else if (response.status === 304) {
+
                 const cached = localStorage.getItem(cacheKey);
-                if(cached){
+                if (cached) {
                     json = JSON.parse(cached);
                 }
-            }
-            else{
-                throw new Error(`Opps! Failed to Fetch Data.`);
-            }
-            if(json !== undefined)
-            {
-            allFiles = json
-                .filter(item => item.type === "file" && item.name.endsWith('.txt'))
-                .map(item => ({
-                    ...item,
-                    DisplayName: formatDisplayName(item.name)
-                }))
-                .sort((a, b) => parseInt(a.DisplayName.split(".")[0]) - parseInt(b.DisplayName.split(".")[0]));
-            
 
-            renderList(allFiles);
+            } else {
+
+                throw new Error(`Opps! Failed to Fetch Data.`);
+
             }
-            else{
-                resultsContainer.innerHTML = `<div class="result-item">Error loading files.</div>`;
-            }
-        } catch (e) {
-            console.error("⚠️ Error loading file list:", e);
-            const cached = localStorage.getItem(cacheKey);
-            if(cached)
-            {
-                const json = JSON.parse(cached);
-                 allFiles = json
-                .filter(item => item.type === "file" && item.name.endsWith('.txt'))
-                .map(item => ({
-                    ...item,
-                    DisplayName: formatDisplayName(item.name)
-                }))
-                .sort((a, b) => parseInt(a.DisplayName.split(".")[0]) - parseInt(b.DisplayName.split(".")[0]));
-            
+
+            if (json !== undefined) {
+                allFiles = json
+                    .filter(item => item.type === "file" && item.name.endsWith('.txt'))
+                    .map(item => ({
+                        ...item,
+                        DisplayName: formatDisplayName(item.name)
+                    }))
+                    .sort((a, b) => parseInt(a.DisplayName.split(".")[0]) - parseInt(b.DisplayName.split(".")[0]));
 
                 renderList(allFiles);
-                
-            }
-            else{
+            } else {
                 resultsContainer.innerHTML = `<div class="result-item">Error loading files.</div>`;
             }
+
+        } catch (e) {
+
+            console.error("⚠️ Error loading file list:", e);
+
+            const cached = localStorage.getItem(cacheKey);
+
+            if (cached) {
+                const json = JSON.parse(cached);
+                 allFiles = json
+                    .filter(item => item.type === "file" && item.name.endsWith('.txt'))
+                    .map(item => ({
+                        ...item,
+                        DisplayName: formatDisplayName(item.name)
+                    }))
+                    .sort((a, b) => parseInt(a.DisplayName.split(".")[0]) - parseInt(b.DisplayName.split(".")[0]));
+
+                renderList(allFiles);
+
+            } else {
+
+                resultsContainer.innerHTML = `<div class="result-item">Error loading files.</div>`;
+
+            }
+
         }
+
     }
 
     async function loadContent(filename) {
+
         const codeDisplay = document.querySelector('.code-display');
-        
         codeDisplay.classList.add('loading');
 
         const eTagFileKey = `etag-${filename}`;
         const cacheFileKey = `cache-${filename}`;
-        
+
         try {
+
             const res = await fetch(`${GITHUB_API}/${filename}`,{
                 headers: { "If-None-Match" : localStorage.getItem(eTagFileKey) || ""} ,
                 cache : "no-store"
             });
+
             let text = undefined;
-            if(res.status === 200)
-            {
+            if (res.status === 200) {
+
                 const etag = res.headers.get("etag");
-                if(etag)
-                {
+                if (etag) {
                     localStorage.setItem(eTagFileKey, etag);
                 }
+
                 const data = await res.json();
                 text = atob(data.content);
                 localStorage.setItem(cacheFileKey, text);
-            }
-            else if(res.status === 304)
-            {
+
+            } else if(res.status === 304) {
+
                 const cached = localStorage.getItem(cacheFileKey);
-                if(cached) {
+                if (cached) {
                     text = cached;
                 }
-            }
-            else{
+
+            } else {
+
                 throw new Error(`Opps! Failed to fetch Data.`);
+
             }
-            if(text !== undefined)
-            {
-                renderCode(text);    
-            }
-            else{
+
+            if (text !== undefined) {
+
+                renderCode(text);
+
+            } else {
+
                 renderCode(`📛 Error loading file Content`);
+
             }
+
         } catch (e) {
             
             const cached = localStorage.getItem(cacheFileKey);
-            if(cached)
-            {
+            if(cached) {
+
                 renderCode(cached);
+
+            } else {
+
+               renderCode(`📛 Error loading file: ${e.message}`);
+
             }
-            else{
-               renderCode(`📛 Error loading file: ${e.message}`); 
-            }
+
         } finally {
+
             codeDisplay.classList.remove('loading');
+
         }
+
     }
 
     function renderList(items) {
+
         resultsContainer.innerHTML = "";
         if (items.length === 0) {
             resultsContainer.innerHTML = `<div class="result-item">No matches found.</div>`;
             return;
         }
+
         items.forEach(file => {
             const div = document.createElement("div");
             div.className = "result-item";
@@ -155,20 +177,22 @@ document.addEventListener("DOMContentLoaded", () => {
             div.addEventListener("click", () => {
                 const allItems = document.querySelectorAll('.result-item');
                 allItems.forEach(item => item.classList.remove('active'));
-                
+
                 div.classList.add('active');
-                
+
                 loadContent(file.name);
             });
-            
+
             resultsContainer.appendChild(div);
+
         });
+
     }
 
     function renderCode(content) {
         codeContentElement.innerHTML = highlightJavaSyntax(content);
     }
-    
+
     function formatDisplayName(filename) {
         let nameArr = filename.split(" ");
         let name = nameArr[1].slice(0, -4).replace(/_/g, ' ');
@@ -205,7 +229,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const token = tokenPatterns[patternIndex];
-            return `<span class="${token.type}">${match}</span>`;
+            if(match.includes('Problem') || match.includes('Solution')) {
+                let commentLink = match.split(' ');
+                return `<span class="${token.type}">${commentLink[0]} ${commentLink[1]} <a style="color: cyan" target="_blank" href="${commentLink[2].trim()}">${commentLink[2].trim()}</a></span>`;
+            } else {
+                return `<span class="${token.type}">${match}</span>`;
+            }
         });
     }
 
