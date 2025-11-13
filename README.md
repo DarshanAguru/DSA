@@ -13,7 +13,9 @@ No mess, clean and sleek. It uses github api's for fetching the codes from the D
 
 **Darshan Aguru**
 React Native Developer • AWS Certified Solutions Architect
+<br>
 GitHub: [@DarshanAguru](https://github.com/DarshanAguru)
+<br>
 Portfolio: [DarshanAguru](https://agurudarshan.tech)
 
 ---
